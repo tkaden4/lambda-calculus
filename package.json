@@ -4,12 +4,14 @@
   "main": "index.js",
   "license": "MIT",
   "devDependencies": {
+    "@babel/preset-env": "^7.6.3",
     "@types/jest": "^24.0.19",
     "@types/node": "^12.11.7",
     "jest": "^24.9.0",
     "typescript": "^3.6.4"
   },
   "dependencies": {
-    "arcsecond": "^2.0.1"
+    "arcsecond": "^2.0.1",
+    "core-js": "^3.3.4"
   }
 }

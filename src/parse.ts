@@ -1,11 +1,11 @@
 import arc = require("arcsecond");
 import Form from "./form";
 
-export const name = arc.letters;
+export const name = arc.letters.map((x: string) => ({ type: "var", name: x }));
 
 export const binder = arc.recursiveParser(() =>
   arc
-    .sequenceOf([arc.sequenceOf([name, arc.char(".")]).map(([x]) => x), arc.optionalWhitespace, atomicForm])
+    .sequenceOf([arc.sequenceOf([name, arc.char(".")]).map(([x, ,]) => x), arc.optionalWhitespace, atomicForm])
     .map(([binder, , f]) => ({ type: "binder", binder, form: f }))
 );
 
@@ -16,7 +16,7 @@ export const parenthesizedForm = arc.recursiveParser(() =>
 export const atomicForm = arc.recursiveParser(() => arc.choice([name, parenthesizedForm]));
 
 export const app = arc
-  .recursiveParser(() => arc.sequenceOf([atomicForm, arc.whitespace, atomicForm]))
+  .sequenceOf([atomicForm, arc.whitespace, atomicForm])
   .map(([a, , f]) => ({ type: "app", a: a, b: f }));
 
 export const form = arc.choice([binder, app]);

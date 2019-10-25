@@ -6,13 +6,13 @@ A simple implementation of the lambda calculus in typescript.
 
 ```
 ; The X combinator
-(x. x x)(y. y y)
+(x. (x x))
 
 ; The constant function
-x.y.x
+(x.(y.x))
 
 ; The identify function
-x.x
+(x.x)
 ```
 
 ## Evaluation

@@ -1,3 +1,4 @@
-import { parse, atomicForm } from "./parse";
+import "core-js";
+import { parse } from "./parse";
 
-console.log(parse("(((x.x) (y.y)) (z.z))"));
+console.log(parse("(x.(y.(z.x)))"));

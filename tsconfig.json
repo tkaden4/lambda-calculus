@@ -10,7 +10,10 @@
     "strictFunctionTypes": true,
     "noStrictGenericChecks": false,
     "strictPropertyInitialization": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "downlevelIteration": true,
+    "declaration": true,
+    "declarationDir": "build"
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]

@@ -1,4 +1,4 @@
-# lc
+# lambda-calculus
 
 A simple implementation of the lambda calculus in typescript.
 
@@ -6,7 +6,7 @@ A simple implementation of the lambda calculus in typescript.
 
 ```
 ; The X combinator
-(x. (x x))
+(x.(x x))
 
 ; The constant function
 (x.(y.x))

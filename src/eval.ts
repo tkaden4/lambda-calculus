@@ -19,7 +19,7 @@ export const alpha = <T extends Term, V extends Term>(a: T, b: V): T => {
   const rename = (term: Term, old: Variable, sub: Variable): Term => {
     switch (term.type) {
       case "binder":
-        return binder(term.binder.name === old.name ? sub.name : term.binder.name, subst(term.body, old, sub));
+        return binder(term.binder.name === old.name ? sub.name : term.binder.name, rename(term.body, old, sub));
       default:
         return subst(term, old, sub);
     }

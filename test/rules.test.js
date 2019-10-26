@@ -52,5 +52,11 @@ describe("reductions", () => {
       const b = form.variable("y");
       expect(evaluate.beta(a, b)).toEqual(form.variable("y"));
     });
+
+    test("lambda reduction", () => {
+      const a = form.binder("x", form.variable("x"));
+      const b = form.binder("y", form.variable("y"));
+      expect(evaluate.beta(a, b)).toEqual(form.binder("y", form.variable("y")));
+    });
   });
 });

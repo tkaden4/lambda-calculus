@@ -12,7 +12,7 @@ An implementation of the lambda calculus inspired by [this](http://www.cse.chalm
 ; The constant function
 (x.(y.x))
 
-; The identify function
+; The identity function
 (x.x)
 ```
 

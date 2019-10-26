@@ -6,7 +6,7 @@ An implementation of the lambda calculus inspired by [this](http://www.cse.chalm
 ## Example
 
 ```
-; Identity function
+; Identity function, or I combinator
 (lambda x x)
 
 ; X combinator
@@ -15,7 +15,7 @@ An implementation of the lambda calculus inspired by [this](http://www.cse.chalm
 ; K combinator
 (lambda x (lambda y x))
 
-; K* combinator
+; K* combinator, or K(I)
 (lambda x (lambda y y))
 
 ; application

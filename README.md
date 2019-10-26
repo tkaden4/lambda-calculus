@@ -21,6 +21,7 @@ An implementation of the lambda calculus inspired by [this](http://www.cse.chalm
 ; application
 ((lambda x x)(lambda y y))
 ((lambda x x) y)
+((lambda x x) (lambda x (lambda y x)))
 ```
 
 ## Usage

@@ -1,4 +1,5 @@
 import * as form from "../build/form";
+import * as evaluate from "../build/eval";
 
 const freeVars = f => [...form.freeVariables(f)];
 
@@ -40,6 +41,16 @@ describe("calculus properties", () => {
   describe("closed expressions", () => {
     test("variables aren't closed", () => {
       expect(form.isClosed(form.variable("x"))).toBe(false);
+    });
+  });
+});
+
+describe("reductions", () => {
+  describe("beta", () => {
+    test("variable reduction", () => {
+      const a = form.binder("x", form.variable("x"));
+      const b = form.variable("y");
+      expect(evaluate.beta(a, b)).toEqual(form.variable("y"));
     });
   });
 });

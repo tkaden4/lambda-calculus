@@ -1,6 +1,7 @@
 # lambda-calculus
 
-A simple implementation of the lambda calculus in typescript.
+An implementation of the lambda calculus inspired by [this](http://www.cse.chalmers.se/research/group/logic/TypesSS05/Extra/geuvers.pdf) paper and
+[this](https://ryanflannery.net/research/logic-notes/Barendregt-LambdaCalculus-Chap1-5.pdf) paper.
 
 ## Example
 

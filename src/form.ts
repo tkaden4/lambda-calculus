@@ -19,7 +19,7 @@ export interface Variable {
 
 export const app = (a: Form, b: Form): App => ({ type: "app", a, b });
 export const variable = (name: string): Variable => ({ type: "var", name });
-export const binder = (binder: string, form: Form) => ({ type: "binder", binder: variable(binder), form });
+export const binder = (binder: string, form: Form): Binder => ({ type: "binder", binder: variable(binder), form });
 
 export const freeVariables = (form: Form): Set<Variable> => {
   switch (form.type) {

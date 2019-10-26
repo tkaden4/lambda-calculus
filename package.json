@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "install": "tsc"
+    "install": "tsc && jest"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.6.3",

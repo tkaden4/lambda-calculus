@@ -4,9 +4,9 @@ const toStringSet = (vars: Set<Variable>): Set<string> => {
   return new Set([...vars].map(x => x.name));
 };
 
-// Alpha conversion, ensuring that a beta reduction will not change the meaning
+// Alpha cleaning, ensuring that a beta reduction will not change the meaning
 // of the terms pre and post-reduction.
-export const alpha = <T extends Term, V extends Term>(a: T, b: V): T => {
+export const alphaClean = <T extends Term, V extends Term>(a: T, b: V): T => {
   // Make sure that none of the free variables in B are bound in A,
   // as this could result in a change in meaning after substitution
   const boundInA = toStringSet(boundVariables(a));
@@ -20,14 +20,17 @@ export const alpha = <T extends Term, V extends Term>(a: T, b: V): T => {
     switch (term.type) {
       case "binder":
         return binder(term.binder.name === old.name ? sub.name : term.binder.name, rename(term.body, old, sub));
-      default:
-        return subst(term, old, sub);
+      case "var":
+        return variable(term.name === old.name ? sub.name : term.name);
+      case "app":
+        return app(rename(term.redex, old, sub), rename(term.argument, old, sub));
     }
   };
 
   // Rename the variables in A that are shared with the variables
   // free in B to names unique between the two expressions
   return shared.reduce((term: Term, name: string) => {
+    // TODO the name is wrong, needs to be unique always
     return rename(term, variable(name), variable(`${name}'`));
   }, a) as T;
 };
@@ -51,12 +54,12 @@ export const subst = (term: Term, sub: Variable, to: Term): Term => {
   }
 };
 
-export const evalTerm = (term: Term): Term => {
+export const reduceTerm = (term: Term): Term => {
   switch (term.type) {
     case "app":
-      const lhs = evalTerm(term.redex);
+      const lhs = reduceTerm(term.redex);
       if (lhs.type === "binder") {
-        return evalTerm(beta(alpha(lhs, term.argument), term.argument));
+        return reduceTerm(beta(alphaClean(lhs, term.argument), term.argument));
       } else {
         throw new Error("Cannot beta-reduce a non-redex left hand term");
       }
@@ -65,4 +68,4 @@ export const evalTerm = (term: Term): Term => {
   }
 };
 
-export default evalTerm;
+export default reduceTerm;

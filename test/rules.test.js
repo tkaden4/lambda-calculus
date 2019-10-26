@@ -1,5 +1,5 @@
 import * as term from "../build/term";
-import * as evaluate from "../build/eval";
+import * as rules from "../build/rules";
 
 const freeVars = f => [...term.freeVariables(f)];
 
@@ -50,13 +50,13 @@ describe("reductions", () => {
     test("variable reduction", () => {
       const a = term.binder("x", term.variable("x"));
       const b = term.variable("y");
-      expect(evaluate.beta(a, b)).toEqual(term.variable("y"));
+      expect(rules.beta(a, b)).toEqual(term.variable("y"));
     });
 
     test("lambda reduction", () => {
       const a = term.binder("x", term.variable("x"));
       const b = term.binder("y", term.variable("y"));
-      expect(evaluate.beta(a, b)).toEqual(term.binder("y", term.variable("y")));
+      expect(rules.beta(a, b)).toEqual(term.binder("y", term.variable("y")));
     });
   });
 });
@@ -66,13 +66,13 @@ describe("conversions", () => {
     test("basic example", () => {
       const a = term.binder("x", term.variable("y"));
       const b = term.variable("x");
-      expect(evaluate.alpha(a, b)).toEqual(term.binder("x'", term.variable("y")));
+      expect(rules.alphaClean(a, b)).toEqual(term.binder("x'", term.variable("y")));
     });
 
     test("capture example", () => {
       const a = term.binder("x", term.variable("y"));
       const b = term.binder("y", term.variable("x"));
-      expect(evaluate.alpha(a, b)).toEqual(term.binder("x'", term.variable("y")));
+      expect(rules.alphaClean(a, b)).toEqual(term.binder("x'", term.variable("y")));
     });
   });
 });

@@ -1,15 +1,13 @@
 import repl from "repl";
 import parse from "./parse";
-import evalTerm, { alpha, subst, beta } from "./eval";
-import Term from "./term";
-
+import reduceTerm from "./rules";
 export const startREPL = () => {
   repl.start({
     prompt: "λ ",
-    eval: (cmd, context, filename, cb) => {
+    eval: (cmd, ctx, file, cb) => {
       try {
         const parsed = parse(cmd);
-        cb(null, evalTerm(parsed));
+        cb(null, reduceTerm(parsed));
       } catch (err) {
         cb(err.message, null);
       }

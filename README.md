@@ -6,19 +6,21 @@ An implementation of the lambda calculus inspired by [this](http://www.cse.chalm
 ## Example
 
 ```
-; All expressions must be within parentheses, i.e
-(x. (x x))
-; NOT
-; (x. x x) or x. (x x) or x. x x
+; Identity function
+(lambda x x)
 
-; The X combinator
-(x.(x x))
+; X combinator
+(lambda x (x x))
 
-; The constant function
-(x.(y.x))
+; K combinator
+(lambda x (lambda y x))
 
-; The identity function
-(x.x)
+; K* combinator
+(lambda x (lambda y y))
+
+; application
+((lambda x x)(lambda y y))
+((lambda x x) y)
 ```
 
 ## Usage

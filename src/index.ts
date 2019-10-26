@@ -1,4 +1,4 @@
 import "core-js";
-import { parse } from "./parse";
+import { startREPL } from "./repl";
 
-console.log(parse("(x.(y.(z.x)))"));
+startREPL();

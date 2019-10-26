@@ -6,7 +6,7 @@ const toStringSet = (vars: Set<Variable>): Set<string> => {
 
 // Alpha conversion, ensuring that a beta reduction will not change the meaning
 // of the terms pre and post-reduction.
-export const alpha = (a: Term, b: Term): Term => {
+export const alpha = <T extends Term, V extends Term>(a: T, b: V): T => {
   // Make sure that none of the free variables in B are bound in A,
   // as this could result in a change in meaning after substitution
   const boundInA = toStringSet(boundVariables(a));
@@ -16,7 +16,7 @@ export const alpha = (a: Term, b: Term): Term => {
   // free variables of B
   const shared = [...freeInB].filter(x => boundInA.has(x));
 
-  const rename = (term: Term, old: Variable, sub: Variable) => {
+  const rename = (term: Term, old: Variable, sub: Variable): Term => {
     switch (term.type) {
       case "binder":
         return binder(term.binder.name === old.name ? sub.name : term.binder.name, subst(term.body, old, sub));
@@ -29,7 +29,7 @@ export const alpha = (a: Term, b: Term): Term => {
   // free in B to names unique between the two expressions
   return shared.reduce((term: Term, name: string) => {
     return rename(term, variable(name), variable(`${name}'`));
-  }, a);
+  }, a) as T;
 };
 
 // Beta reduction on a redex term (does not handle alpha conversion).
@@ -50,3 +50,19 @@ export const subst = (term: Term, sub: Variable, to: Term): Term => {
       return binder(term.binder.name, subst(term.body, sub, to));
   }
 };
+
+export const evalTerm = (term: Term): Term => {
+  switch (term.type) {
+    case "app":
+      const lhs = evalTerm(term.redex);
+      if (lhs.type === "binder") {
+        return evalTerm(beta(alpha(lhs, term.argument), term.argument));
+      } else {
+        throw new Error("Cannot beta-reduce a non-redex left hand term");
+      }
+    default:
+      return term;
+  }
+};
+
+export default evalTerm;

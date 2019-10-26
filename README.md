@@ -6,6 +6,11 @@ An implementation of the lambda calculus inspired by [this](http://www.cse.chalm
 ## Example
 
 ```
+; All expressions must be within parentheses, i.e
+(x. (x x))
+; NOT
+; (x. x x) or x. (x x) or x. x x
+
 ; The X combinator
 (x.(x x))
 

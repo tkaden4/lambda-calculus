@@ -1,31 +1,31 @@
 import arc = require("arcsecond");
-import Form from "./form";
+import Term, { Binder, Variable, App } from "./term";
 
-export const name = arc.letters.map((x: string) => ({ type: "var", name: x }));
+export const name = arc.letters.map((x: string) => ({ type: "var", name: x } as Variable));
 
 export const binder = arc.recursiveParser(() =>
   arc
-    .sequenceOf([arc.sequenceOf([name, arc.char(".")]).map(([x, ,]) => x), arc.optionalWhitespace, atomicForm])
-    .map(([binder, , f]) => ({ type: "binder", binder, form: f }))
+    .sequenceOf([arc.sequenceOf([name, arc.char(".")]).map(([x, ,]) => x), arc.optionalWhitespace, atomicTerm])
+    .map(([binder, , f]) => ({ type: "binder", binder, body: f } as Binder))
 );
 
-export const parenthesizedForm = arc.recursiveParser(() =>
-  arc.sequenceOf([arc.char("("), form, arc.char(")")]).map(([, f, ,]) => f)
+export const parenTerm = arc.recursiveParser(() =>
+  arc.sequenceOf([arc.char("("), term, arc.char(")")]).map(([, f, ,]) => f as Term)
 );
 
-export const atomicForm = arc.recursiveParser(() => arc.choice([name, parenthesizedForm]));
+export const atomicTerm = arc.recursiveParser(() => arc.choice([name, parenTerm]));
 
 export const app = arc
-  .sequenceOf([atomicForm, arc.whitespace, atomicForm])
-  .map(([a, , f]) => ({ type: "app", a: a, b: f }));
+  .sequenceOf([atomicTerm, arc.whitespace, atomicTerm])
+  .map(([a, , f]) => ({ type: "app", redex: a, argument: f } as App));
 
-export const form = arc.choice([binder, app]);
+export const term = arc.choice([binder, app]);
 
 export const parser: any = arc
-  .sequenceOf([arc.optionalWhitespace, atomicForm, arc.optionalWhitespace, arc.endOfInput])
+  .sequenceOf([arc.optionalWhitespace, atomicTerm, arc.optionalWhitespace, arc.endOfInput])
   .map(([, f, ,]) => f);
 
-export const parse = (data: string, p = parser): Form => {
+export const parse = (data: string, p = parser): Term => {
   const result = p.run(data);
   if (result.isError) {
     throw new Error(JSON.stringify(result));

@@ -13,7 +13,8 @@
     "resolveJsonModule": true,
     "downlevelIteration": true,
     "declaration": true,
-    "declarationDir": "build"
+    "declarationDir": "build",
+    "lib": ["esnext"]
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]

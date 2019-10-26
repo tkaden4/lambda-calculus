@@ -21,4 +21,13 @@ An implementation of the lambda calculus inspired by [this](http://www.cse.chalm
 (x.x)
 ```
 
-## Evaluation
+## Usage
+
+To get started, you can build the project and access an interactive REPL like so:
+
+```
+git clone https://github.com/tkaden4/lambda-calculus
+cd lambda-calculus
+yarn install
+node build
+```

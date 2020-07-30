@@ -1,7 +1,7 @@
 import Term, { Binder, Variable, app, binder, boundVariables, freeVariables, variable } from "./term";
 
 const toStringSet = (vars: Set<Variable>): Set<string> => {
-  return new Set([...vars].map(x => x.name));
+  return new Set([...vars].map((x) => x.name));
 };
 
 // Alpha cleaning, ensuring that a beta reduction will not change the meaning
@@ -14,7 +14,7 @@ export const alphaClean = <T extends Term, V extends Term>(a: T, b: V): T => {
 
   // Variables shared between the bound variables of A and the
   // free variables of B
-  const shared = [...freeInB].filter(x => boundInA.has(x));
+  const shared = [...freeInB].filter((x) => boundInA.has(x));
 
   const rename = (term: Term, old: Variable, sub: Variable): Term => {
     switch (term.type) {
@@ -68,4 +68,13 @@ export const reduceTerm = (term: Term): Term => {
   }
 };
 
-export default reduceTerm;
+export const prettifyTerm = (term: Term): string => {
+  switch (term.type) {
+    case "var":
+      return term.name;
+    case "app":
+      return `(${prettifyTerm(term.redex)} ${prettifyTerm(term.argument)})`;
+    case "binder":
+      return `(lambda ${prettifyTerm(term.binder)} ${prettifyTerm(term.body)})`;
+  }
+};

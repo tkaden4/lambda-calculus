@@ -3,6 +3,8 @@
 An implementation of the lambda calculus inspired by [this](http://www.cse.chalmers.se/research/group/logic/TypesSS05/Extra/geuvers.pdf) paper and
 [this](https://ryanflannery.net/research/logic-notes/Barendregt-LambdaCalculus-Chap1-5.pdf) paper.
 
+[![Run on Repl.it](https://repl.it/badge/github/tkaden4/lambda-calculus)](https://repl.it/github/tkaden4/lambda-calculus)
+
 ## Example
 
 ```
